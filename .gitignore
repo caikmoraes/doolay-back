@@ -1,2 +1,4 @@
 db.sqlite3
 doolay/__pycache__/
+/.venv/
+/.idea/
