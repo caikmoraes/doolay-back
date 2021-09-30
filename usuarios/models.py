@@ -18,4 +18,4 @@ class Aluno(models.Model):
 class Funcionario(models.Model):
     user = models.OneToOneField(Usuario, on_delete=models.CASCADE)
     num_funcional = models.CharField(max_length=16, unique=True)
-    setor = models.CharField(max_length=16)
+    setor = models.CharField(max_length=256)

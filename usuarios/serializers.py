@@ -39,3 +39,44 @@ class AlunoGetSerializer(serializers.ModelSerializer):
         model = usuarios_models.Aluno
         fields = ['num_matricula', 'user']
         depth = 1
+
+
+class FuncionarioCreateSerializer(serializers.ModelSerializer):
+    num_funcional = serializers.CharField(max_length=16, write_only=True)
+    setor = serializers.CharField(max_length=256, write_only=True)
+    password = serializers.CharField(write_only=True)
+
+    class Meta:
+        model = usuarios_models.Usuario
+        fields = [
+            'first_name',
+            'last_name',
+            'email',
+            'num_funcional',
+            'setor',
+            'password',
+            'data_nascimento',
+            'cidade',
+            'estado'
+        ]
+
+    def create(self, validated_data):
+        user_data = {k: validated_data[k] for k in set(list(validated_data.keys())) - set(['num_funcional', 'setor'])}
+        user_data['username'] = get_random_string(length=32)
+        user = super(FuncionarioCreateSerializer, self).create(user_data)
+        user.set_password(validated_data['password'])
+        user.save()
+        try:
+            usuarios_models.Funcionario.objects.create(user=user,
+                                                       setor=validated_data['setor'],
+                                                       num_funcional=validated_data['num_funcional'])
+        except IntegrityError:
+            raise Exception("unique_constraint")
+        return user
+
+
+class FuncionarioGetSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = usuarios_models.Funcionario
+        fields = ['num_funcional', 'setor', 'user']
+        depth = 1
