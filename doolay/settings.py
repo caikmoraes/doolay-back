@@ -26,7 +26,12 @@ SECRET_KEY = '=0sd)9d+s9o74i1d#sb7za*y=ogvvbzf!&b8swo*-v054fr6j0'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOW_ALL_ORIGINS = True
+
+CORS_ALLOWED_ORIGINS = [
+    'https://app-doolay.web.app',
+    'https://app-doolay.web.app/'
+]
 
 AUTH_USER_MODEL = 'usuarios.Usuario'
 
