@@ -93,7 +93,7 @@ REST_FRAMEWORK = {
 CORS_ALLOW_ALL_ORIGINS = True
 
 CORS_ALLOWED_ORIGINS = [
-    'app-doolay.web.app',
+    'https://app-doolay.web.app/',
 ]
 
 # Database
