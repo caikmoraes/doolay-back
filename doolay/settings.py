@@ -45,7 +45,8 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'djoser',
     'usuarios',
-    'setores'
+    'setores',
+    'saude'
 ]
 
 MIDDLEWARE = [
