@@ -93,8 +93,7 @@ REST_FRAMEWORK = {
 CORS_ALLOW_ALL_ORIGINS = True
 
 CORS_ALLOWED_ORIGINS = [
-    'https://app-doolay.web.app',
-    'https://app-doolay.web.app/'
+    'app-doolay.web.app',
 ]
 
 # Database
@@ -142,6 +141,16 @@ USE_L10N = True
 
 USE_TZ = True
 
+
+DJOSER = {
+    "LOGIN_FIELD": "num_identificacao",
+    "SERIALIZERS": {
+        "user_create": "usuarios.serializers.UserCreateSerializer",
+        "user": "djoser.serializers.UserSerializer",
+        "current_user": "djoser.serializers.UserSerializer",
+        "user_delete": "djoser.serializers.UserSerializer"
+    }
+}
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
