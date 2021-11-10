@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'drf_yasg',
     'whitenoise.runserver_nostatic',
     'corsheaders',
     'rest_framework',
@@ -46,7 +47,7 @@ INSTALLED_APPS = [
     'djoser',
     'usuarios',
     'setores',
-    'saude'
+    'saude',
 ]
 
 MIDDLEWARE = [

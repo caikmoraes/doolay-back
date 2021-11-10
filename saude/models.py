@@ -21,7 +21,7 @@ class ListaSintomas(models.Model):
 
 
 class EstadoSaude(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=False)
     estado = models.CharField(max_length=12, choices=[
         ("OK", "Bem"),
         ("NOK", "Não muito bem")

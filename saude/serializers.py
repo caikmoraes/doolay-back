@@ -3,11 +3,13 @@ from rest_framework import serializers
 
 
 class ListaSintomasSerializer(serializers.ModelSerializer):
-    model = ListaSintomas
-    fields = '__all__'
+    class Meta:
+        model = ListaSintomas
+        fields = '__all__'
 
 
 class EstadoSaudeSerializer(serializers.ModelSerializer):
-    model = EstadoSaude
-    fields = '__all__'
-    depth = 1
+    class Meta:
+        model = EstadoSaude
+        fields = ['id', 'user', 'estado', 'sintomas']
+        depth = 1
