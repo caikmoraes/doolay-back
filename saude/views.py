@@ -3,7 +3,7 @@ from rest_framework.views import APIView
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from saude.models import ListaSintomas, EstadoSaude
-from saude.serializers import EstadoSaudeSerializer, ListaSintomasSerializer
+from saude.serializers import EstadoSaudeSerializer, EstadoSaudeNestedSerializer, ListaSintomasSerializer
 
 
 class ListaSintomasViewSet(viewsets.ModelViewSet):
@@ -14,6 +14,12 @@ class ListaSintomasViewSet(viewsets.ModelViewSet):
 class EstadoSaudeViewSet(viewsets.ModelViewSet):
     queryset = EstadoSaude.objects.all()
     serializer_class = EstadoSaudeSerializer
+
+    def get_serializer_class(self):
+        if self.action == 'create':
+            return EstadoSaudeSerializer
+        else:
+            return EstadoSaudeNestedSerializer
 
 
 class EstadoSaudeDetail(APIView):

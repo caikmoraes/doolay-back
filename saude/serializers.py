@@ -13,3 +13,10 @@ class EstadoSaudeSerializer(serializers.ModelSerializer):
         model = EstadoSaude
         fields = ['id', 'user', 'estado', 'sintomas']
         depth = 0
+
+
+class EstadoSaudeNestedSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = EstadoSaude
+        fields = ['id', 'user', 'estado', 'sintomas']
+        depth = 1
