@@ -12,4 +12,4 @@ class EstadoSaudeSerializer(serializers.ModelSerializer):
     class Meta:
         model = EstadoSaude
         fields = ['id', 'user', 'estado', 'sintomas']
-        depth = 1
+        depth = 0
