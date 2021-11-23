@@ -14,6 +14,8 @@ schema_view = get_schema_view(
 
 router = DefaultRouter()
 router.register(r'estadosaude', saude_views.EstadoSaudeViewSet)
+router.register(r'sintomas', saude_views.SintomaViewSet)
+router.register(r'item_sintoma', saude_views.EstadoItemSintomaViewSet)
 router.register(r'listasintomas', saude_views.ListaSintomasViewSet)
 
 

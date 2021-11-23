@@ -3,6 +3,8 @@ from django.contrib.auth import get_user_model
 
 User = get_user_model()
 
+class Sintoma(models.Model):
+    nome = models.CharField(max_length=280)
 
 class ListaSintomas(models.Model):
     falta_ar = models.BooleanField()
@@ -27,4 +29,9 @@ class EstadoSaude(models.Model):
         ("NOK", "Não muito bem")
     ])
     date = models.DateTimeField(auto_now_add=True, auto_now=False)
-    sintomas = models.ForeignKey(ListaSintomas, null=True, blank=True, on_delete=models.CASCADE)
+
+
+class EstadoSintomaItem(models.Model):
+    sintoma = models.ForeignKey(Sintoma, on_delete=models.CASCADE)
+    estado_saude = models.ForeignKey(EstadoSaude, on_delete=models.CASCADE)
+    apresenta = models.BooleanField()
