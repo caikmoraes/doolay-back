@@ -6,8 +6,8 @@ from django.contrib.auth.models import (
 )
 
 class UsuarioManager(BaseUserManager):
-    def create_user(self, num_identificacao, tipo_usuario, name, password=None, **extra_fields):
-        user = self.model(num_identificacao=num_identificacao, tipo_usuario=tipo_usuario, name=name)
+    def create_user(self, num_identificacao, tipo_usuario, name=None, password=None, **extra_fields):
+        user = self.model(num_identificacao=num_identificacao, tipo_usuario=tipo_usuario, name=name, **extra_fields)
         user.set_password(password)
         user.save(using=self._db)
         return user
@@ -26,8 +26,8 @@ class UsuarioManager(BaseUserManager):
 
 
 class Usuario(AbstractBaseUser):
-    name = models.CharField(max_length=256, default="none informed")
-    data_nascimento = models.DateTimeField(null=True, blank=True)
+    name = models.CharField(max_length=256, null=True, blank=True, default="none informed")
+    data_nascimento = models.DateField(null=True, blank=True)
     cidade = models.CharField(max_length=128, default="none informed")
     estado = models.CharField(max_length=128, default="none informed")
     num_identificacao = models.CharField(max_length=8, unique=True, primary_key=True)

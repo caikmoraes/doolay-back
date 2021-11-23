@@ -2,4 +2,7 @@ db.sqlite3
 doolay/__pycache__/
 /.venv/
 /.idea/
-*/__pycache__/
+**/__pycache__/
+saude/__pycache__
+usuarios/__pycache__
+setores/__pycache__
