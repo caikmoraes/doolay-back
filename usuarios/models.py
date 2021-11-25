@@ -33,7 +33,9 @@ class Usuario(AbstractBaseUser):
     num_identificacao = models.CharField(max_length=8, unique=True, primary_key=True)
     tipo_usuario = models.CharField(max_length=3, choices=[
         ("ALU", "Aluno"),
-        ("FUN", "Funcionario")
+        ("FUN", "Funcionario"),
+        ("ADM", "Administrador"),
+        ("GES", "Gestor"),
     ])
     setor = models.ForeignKey('setores.Setor', on_delete=models.DO_NOTHING, blank=True, null=True)
     is_active = models.BooleanField(default=True)
