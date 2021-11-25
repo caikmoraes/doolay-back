@@ -28,7 +28,7 @@ class EstadoSaude(models.Model):
         ("OK", "Bem"),
         ("NOK", "Não muito bem")
     ])
-    date = models.DateTimeField(auto_now_add=True, auto_now=False)
+    date = models.DateField(auto_now_add=True, auto_now=False)
 
 
 class EstadoSintomaItem(models.Model):
