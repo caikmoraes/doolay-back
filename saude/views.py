@@ -243,7 +243,7 @@ def plot_registros_setor(request, date_inicio, date_final):
     plt.yticks(new_list)
     plt.ylabel('Registros')
     plt.xlabel('Datas')
-    plt.title(f'Registros Diários')
+    plt.title(f'Registros Diários por setor')
     response = HttpResponse(content_type="image/png")
     plt.savefig(response, format="png")
     return response
@@ -289,7 +289,7 @@ def relatorio_registros_noks_setor_percentage(request, date_inicio, date_final):
     return FileResponse(buffer, as_attachment=True, filename=f'relatorio_nok_setor_{date_inicio}_{date_final}.pdf')
 
 
-def plot_registros_noks_setor(request, date_inicio, date_final, pk_setor):
+def plot_registros_noks_setor(request, date_inicio, date_final):
 
     date_format = "%Y-%m-%d"
     date_format_output = "%d/%m/%Y"
@@ -298,15 +298,16 @@ def plot_registros_noks_setor(request, date_inicio, date_final, pk_setor):
     query = EstadoSaude.objects.filter(date__range=(dt_inicio, dt_final))
     n_registros = query.count()
 
-    objects = [date for date in daterange(dt_inicio, dt_final)]
-    print(objects)
-    y_pos = np.arange(len(objects))
+    objects = []
     qty = []
-    for single_date in objects:
-        countage = query.filter(date=single_date, user__setor__id=pk_setor, estado="NOK").count()
+    xlabels = []
+    for setor in setores: 
+        objects.append(setor.nome)
+        xlabels.append(setor.nome)
+        countage = query.filter(user__setor=setor, estado="NOK").count()
         qty.append(countage)
-
-    xlabels = [f"{date.day}/{date.month}/{date.year}" for date in daterange(dt_inicio, dt_final)]
+    
+    y_pos = np.arange(len(objects))
     new_list = range(math.floor(min(qty)), math.ceil(max(qty))+1)
     plt.bar(y_pos, qty, align='center', alpha=0.5)
     plt.tight_layout()
@@ -314,12 +315,12 @@ def plot_registros_noks_setor(request, date_inicio, date_final, pk_setor):
     plt.yticks(new_list)
     plt.ylabel('Registros')
     plt.xlabel('Datas')
-    plt.title(f'Registros NOKs Diários')
+    plt.title(f'Registros NOKs Diários por setor')
     response = HttpResponse(content_type="image/png")
     plt.savefig(response, format="png")
     return response
 
-def plot_registros_noks_setor_percentage(request, date_inicio, date_final, pk_setor):
+def plot_registros_noks_setor_percentage(request, date_inicio, date_final):
 
     date_format = "%Y-%m-%d"
     date_format_output = "%d/%m/%Y"
@@ -328,19 +329,21 @@ def plot_registros_noks_setor_percentage(request, date_inicio, date_final, pk_se
     query = EstadoSaude.objects.filter(date__range=(dt_inicio, dt_final))
     n_registros = query.count()
 
-    objects = [date for date in daterange(dt_inicio, dt_final)]
-    print(objects)
-    y_pos = np.arange(len(objects))
+    objects = []
     qty = []
-    for single_date in objects:
-        countage_nok = query.filter(date=single_date.date(), user__setor__id=pk_setor, estado="NOK").count()
-        countage = query.filter(date=single_date, user__setor__id=pk_setor).count()
+    xlabels = []
+    for setor in setores: 
+        objects.append(setor.nome)
+        xlabels.append(setor.nome)
+        countage_nok = query.filter(user__setor=setor, estado="NOK").count()
+        countage = query.filter(user__setor=setor).count()
         if countage != 0:
             percentage = (countage_nok/countage) * 100 
         else:
             percentage = 0
         qty.append(percentage)
-
+        
+    y_pos = np.arange(len(objects))
     xlabels = [f"{date.day}/{date.month}/{date.year}" for date in daterange(dt_inicio, dt_final)]
     new_list = range(math.floor(min(qty)), math.ceil(max(qty))+1)
     plt.bar(y_pos, qty, align='center', alpha=0.5)
