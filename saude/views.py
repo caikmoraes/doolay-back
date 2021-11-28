@@ -268,7 +268,6 @@ def relatorio_registros_setor_percentage(request, date_inicio, date_final):
         countage = query.filter(date=single_date).count()
         date_out = single_date.strftime(date_format_output)
         p.drawCentredString(100, spacing, f"{date_out}:")
-        spacing += 25
         for setor in setores:
             estado_por_setor = new_query.filter(user__setor__id=setor.pk).count()
             nok_por_setor = new_query.filter(user__setor__id=setor.pk, estado="NOK").count()
