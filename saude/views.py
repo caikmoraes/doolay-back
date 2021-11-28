@@ -136,6 +136,7 @@ def plot_noks_diarios_valor(request, date_inicio, date_final):
     plt.bar(y_pos, qty, align='center', alpha=0.5)
     plt.xticks(y_pos, xlabels)
     plt.yticks(new_list)
+    plt.tight_layout()
     plt.ylabel('Registros')
     plt.xlabel('Datas')
     plt.title(f'NOKs Diários')
@@ -169,6 +170,7 @@ def plot_noks_diarios_percentage(request, date_inicio, date_final):
     xlabels = [f"{date.day}/{date.month}/{date.year}" for date in daterange(dt_inicio, dt_final)]
     new_list = range(math.floor(min(qty)), math.ceil(max(qty))+1)
     plt.bar(y_pos, qty, align='center', alpha=0.5)
+    plt.tight_layout()
     plt.xticks(y_pos, xlabels)
     plt.ylabel('Registros')
     plt.xlabel('Datas')
@@ -193,7 +195,7 @@ def relatorio_registros_setor(request, date_inicio, date_final):
     buffer = io.BytesIO()
     p = canvas.Canvas(buffer)
     p.drawCentredString(PAGE_WIDTH/2, PAGE_HEIGHT-100, "Relatório de Registros Díarios por Setor")
-    spacing = PAGE_HEIGHT-220
+    spacing = PAGE_HEIGHT-500
     setores = Setor.objects.all()
     for single_date in daterange(dt_inicio, dt_final):
         new_query = query.filter(date=single_date)
@@ -232,6 +234,7 @@ def plot_registros_setor(request, date_inicio, date_final, pk_setor):
     xlabels = [f"{date.day}/{date.month}/{date.year}" for date in daterange(dt_inicio, dt_final)]
     new_list = range(math.floor(min(qty)), math.ceil(max(qty))+1)
     plt.bar(y_pos, qty, align='center', alpha=0.5)
+    plt.tight_layout()
     plt.xticks(y_pos, xlabels)
     plt.yticks(new_list)
     plt.ylabel('Registros')
@@ -258,7 +261,7 @@ def relatorio_registros_setor_percentage(request, date_inicio, date_final):
     buffer = io.BytesIO()
     p = canvas.Canvas(buffer)
     p.drawCentredString(PAGE_WIDTH/2, PAGE_HEIGHT-100, "Relatório de Registros Díarios por Setor")
-    spacing = PAGE_HEIGHT-220
+    spacing = PAGE_HEIGHT-500
     setores = Setor.objects.all()
     for single_date in daterange(dt_inicio, dt_final):
         new_query = query.filter(date=single_date)
