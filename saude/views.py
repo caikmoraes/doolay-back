@@ -232,9 +232,8 @@ def plot_registros_setor(request, date_inicio, date_final):
     for setor in setores: 
         objects.append(setor.nome)
         xlabels.append(setor.nome)
-        for single_date in objects:
-            countage = query.filter(date=single_date, user__setor=setor).count()
-            qty.append(countage)
+        countage = query.filter(user__setor=setor).count()
+        qty.append(countage)
 
     y_pos = np.arange(len(objects))
     new_list = range(math.floor(min(qty)), math.ceil(max(qty))+1)

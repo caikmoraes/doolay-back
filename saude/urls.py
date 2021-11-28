@@ -28,7 +28,7 @@ urlpatterns = [
    path('relatorio/noks/<str:date_inicio>/<str:date_final>/plot/', saude_views.plot_noks_diarios_valor), #d
    path('relatorio/noks/<str:date_inicio>/<str:date_final>/plot/percentage/', saude_views.plot_noks_diarios_percentage), #d
    path('relatorio/registros/setor/<str:date_inicio>/<str:date_final>/', saude_views.relatorio_registros_setor), #e
-   path('relatorio/registros/setor/<str:date_inicio>/<str:date_final>/plot/setor/', saude_views.plot_registros_setor), #f
+   path('relatorio/registros/setor/<str:date_inicio>/<str:date_final>/plot/', saude_views.plot_registros_setor), #f
    path('relatorio/registros/setor/nok/<str:date_inicio>/<str:date_final>/', saude_views.relatorio_registros_noks_setor_percentage), #g
    path('relatorio/registros/setor/nok/<str:date_inicio>/<str:date_final>/plot/setor/<int:pk_setor>/', saude_views.plot_registros_noks_setor), #h
    path('relatorio/registros/setor/nok/<str:date_inicio>/<str:date_final>/plot/setor/<int:pk_setor>/percentage/', saude_views.plot_registros_noks_setor_percentage), #h
