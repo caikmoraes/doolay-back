@@ -480,7 +480,7 @@ class EstadoSaudeViewSet(viewsets.ModelViewSet):
 
 class EstadoSaudeDetail(APIView):
     queryset = EstadoSaude.objects.all()
-    serializer_class = EstadoSaudeSerializer
+    serializer_class = EstadoSaudeNestedSerializer
 
     def get(self, request, user_pk, format=None):
         obj = self.queryset.filter(user_id=user_pk)
