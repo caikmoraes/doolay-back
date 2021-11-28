@@ -355,7 +355,7 @@ def plot_registros_noks_setor_percentage(request, date_inicio, date_final, pk_se
 def relatorio_nok_cinco_dias(request):
     date_format = "%Y-%m-%d"
     date_format_output = "%d/%m/%Y"
-    dt_final = datetime.datetime.today()
+    dt_final = datetime.datetime.today() + datetime.timedelta(days=1)
     dt_inicio = datetime.datetime.today() - datetime.timedelta(days=5)
     query = EstadoSaude.objects.filter(date__range=(dt_inicio, dt_final))
 
@@ -383,7 +383,7 @@ def relatorio_nok_cinco_dias(request):
 def relatorio_nok_cinco_dias_setor(request):
     date_format = "%Y-%m-%d"
     date_format_output = "%d/%m/%Y"
-    dt_final = datetime.datetime.today()
+    dt_final = datetime.datetime.today() + datetime.timedelta(days=1)
     dt_inicio = datetime.datetime.today() - datetime.timedelta(days=5)
     query = EstadoSaude.objects.filter(date__range=(dt_inicio, dt_final))
 
