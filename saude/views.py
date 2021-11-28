@@ -346,7 +346,6 @@ def plot_registros_noks_setor_percentage(request, date_inicio, date_final):
         qty.append(percentage)
         
     y_pos = np.arange(len(objects))
-    xlabels = [f"{date.day}/{date.month}/{date.year}" for date in daterange(dt_inicio, dt_final)]
     new_list = range(math.floor(min(qty)), math.ceil(max(qty))+1)
     plt.bar(y_pos, qty, align='center', alpha=0.5)
     plt.tight_layout()
