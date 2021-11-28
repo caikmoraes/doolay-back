@@ -97,7 +97,7 @@ def relatorio_nok_diarios(request, date_inicio, date_final):
     buffer = io.BytesIO()
     p = canvas.Canvas(buffer)
     p.drawCentredString(PAGE_WIDTH/2, PAGE_HEIGHT-100, "Relatório de NOKs Díarios")
-    spacing = PAGE_HEIGHT-200
+    spacing = PAGE_HEIGHT-500
     for single_date in daterange(dt_inicio, dt_final):
         countage_nok = query.filter(date=single_date.date(), estado="NOK").count()
         countage = query.filter(date=single_date.date()).count()
