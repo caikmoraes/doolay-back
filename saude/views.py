@@ -351,6 +351,69 @@ def plot_registros_noks_setor_percentage(request, date_inicio, date_final, pk_se
     return response
 
 
+
+def relatorio_nok_cinco_dias(request):
+    date_format = "%Y-%m-%d"
+    date_format_output = "%d/%m/%Y"
+    dt_final = datetime.datetime.today()
+    dt_inicio = datetime.datetime.today() - datetime.timedelta(days=5)
+    query = EstadoSaude.objects.filter(date__range=(dt_inicio, dt_final))
+
+    ## creating PDF
+
+    PAGE_WIDTH  = defaultPageSize[0]
+    PAGE_HEIGHT = defaultPageSize[1]
+
+    buffer = io.BytesIO()
+    p = canvas.Canvas(buffer)
+    p.drawCentredString(PAGE_WIDTH/2, PAGE_HEIGHT-100, "Relatório de NOKs de 5 dias até a data presente")
+    spacing = PAGE_HEIGHT-500
+    for single_date in daterange(dt_inicio, dt_final):
+        countage = query.filter(date=single_date).count()
+        date_out = single_date.strftime(date_format_output)
+        p.drawString(100, spacing, f"{date_out}: {countage} registros ")
+        spacing += 25
+    p.showPage()
+    p.save()
+
+    buffer.seek(0)
+    return FileResponse(buffer, as_attachment=True, filename=f'relatorio_noks.pdf')
+
+
+def relatorio_nok_cinco_dias_setor(request):
+    date_format = "%Y-%m-%d"
+    date_format_output = "%d/%m/%Y"
+    dt_final = datetime.datetime.today()
+    dt_inicio = datetime.datetime.today() - datetime.timedelta(days=5)
+    query = EstadoSaude.objects.filter(date__range=(dt_inicio, dt_final))
+
+    ## creating PDF
+ 
+    PAGE_WIDTH  = defaultPageSize[0]
+    PAGE_HEIGHT = defaultPageSize[1]
+
+    buffer = io.BytesIO()
+    p = canvas.Canvas(buffer)
+    p.drawCentredString(PAGE_WIDTH/2, PAGE_HEIGHT-100, "elatório de NOKs por setor de 5 dias até a data presente")
+    spacing = PAGE_HEIGHT-500
+    setores = Setor.objects.all()
+    for single_date in daterange(dt_inicio, dt_final):
+        new_query = query.filter(date=single_date)
+        countage = query.filter(date=single_date).count()
+        date_out = single_date.strftime(date_format_output)
+        p.drawString(100, spacing, f"{date_out}:")
+        for setor in setores:
+            estado_por_setor = new_query.filter(user__setor__id=setor.pk).count()
+            p.drawString(120, spacing-15, f"{setor.nome} tem {estado_por_setor} registros")
+            spacing -= 15
+        spacing += 60
+    p.showPage()
+    p.save()
+
+    buffer.seek(0)
+    return FileResponse(buffer, as_attachment=True, filename=f'relatorio_noks_setor.pdf')
+
+
 class ListaSintomasViewSet(viewsets.ModelViewSet):
     queryset = ListaSintomas.objects.all()
     serializer_class = ListaSintomasSerializer
