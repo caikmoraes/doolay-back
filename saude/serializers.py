@@ -9,10 +9,9 @@ class ListaSintomasSerializer(serializers.ModelSerializer):
 
 
 class EstadoSaudeSerializer(serializers.ModelSerializer):
-    date = serializers.DateTimeField(format="%Y-%m-%d")
     class Meta:
         model = EstadoSaude
-        fields = ['id', 'user', 'estado', 'date']
+        fields = ['id', 'user', 'estado']
         depth = 0
 
 class SintomaSerializer(serializers.ModelSerializer):
