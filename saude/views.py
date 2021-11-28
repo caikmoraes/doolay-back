@@ -69,9 +69,9 @@ def plot_registros_diarios(request, date_inicio, date_final):
 
     xlabels = [f"{date.day}/{date.month}/{date.year}" for date in daterange(dt_inicio, dt_final)]
     new_list = range(math.floor(min(qty)), math.ceil(max(qty))+1)
-    plt.tight_layout()
     plt.bar(y_pos, qty, align='center', alpha=0.5)
-    plt.xticks(y_pos, xlabels, rotation=90)
+    plt.tight_layout()
+    plt.xticks(y_pos, xlabels, rotation=45)
     plt.yticks(new_list)
     plt.ylabel('Registros')
     plt.xlabel('Datas')
