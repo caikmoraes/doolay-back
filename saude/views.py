@@ -216,24 +216,27 @@ def relatorio_registros_setor(request, date_inicio, date_final):
     return FileResponse(buffer, as_attachment=True, filename=f'relatorio_setor_{date_inicio}_{date_final}.pdf')
 
 
-def plot_registros_setor(request, date_inicio, date_final, pk_setor):
+def plot_registros_setor(request, date_inicio, date_final):
 
     date_format = "%Y-%m-%d"
     date_format_output = "%d/%m/%Y"
     dt_inicio = datetime.datetime.strptime(date_inicio, date_format)
     dt_final = datetime.datetime.strptime(date_final, date_format)
     query = EstadoSaude.objects.filter(date__range=(dt_inicio, dt_final))
+    setores = Setor.objects.all()
     n_registros = query.count()
 
-    objects = [date for date in daterange(dt_inicio, dt_final)]
-    print(objects)
-    y_pos = np.arange(len(objects))
+    objects = []
     qty = []
-    for single_date in objects:
-        countage = query.filter(date=single_date, user__setor__id=pk_setor).count()
-        qty.append(countage)
+    xlabels = []
+    for setor in setores: 
+        objects.append(setor.nome)
+        xlabels.append(setor.nome)
+        for single_date in objects:
+            countage = query.filter(date=single_date, user__setor=setor).count()
+            qty.append(countage)
 
-    xlabels = [f"{date.day}/{date.month}/{date.year}" for date in daterange(dt_inicio, dt_final)]
+    y_pos = np.arange(len(objects))
     new_list = range(math.floor(min(qty)), math.ceil(max(qty))+1)
     plt.bar(y_pos, qty, align='center', alpha=0.5)
     plt.tight_layout()
