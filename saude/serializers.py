@@ -15,7 +15,6 @@ class EstadoSaudeSerializer(serializers.ModelSerializer):
         fields = ['id', 'user', 'estado', 'date']
         depth = 0
 
-
 class SintomaSerializer(serializers.ModelSerializer):
     class Meta:
         model = Sintoma
@@ -30,6 +29,7 @@ class EstadoSintomaItemSerializer(serializers.ModelSerializer):
 
 class EstadoSaudeNestedSerializer(serializers.ModelSerializer):
     sintomas = serializers.SerializerMethodField()
+    date = serializers.DateTimeField(format="%Y-%m-%d")
 
     def get_sintomas(self, item):
         objects = EstadoSintomaItem.objects.filter(estado_saude=EstadoSaude.objects.get(pk=item.pk))
