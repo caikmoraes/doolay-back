@@ -11,7 +11,7 @@ class ListaSintomasSerializer(serializers.ModelSerializer):
 class EstadoSaudeSerializer(serializers.ModelSerializer):
     class Meta:
         model = EstadoSaude
-        fields = ['id', 'user', 'estado']
+        fields = ['id', 'user', 'estado', 'date']
         depth = 0
 
 
@@ -37,4 +37,4 @@ class EstadoSaudeNestedSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = EstadoSaude
-        fields = ['id', 'user', 'estado', 'sintomas']
+        fields = ['id', 'user', 'estado', 'sintomas', 'date']
