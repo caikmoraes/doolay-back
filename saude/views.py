@@ -205,6 +205,7 @@ def relatorio_registros_setor(request, date_inicio, date_final):
         for setor in setores:
             estado_por_setor = new_query.filter(user__setor__id=setor.pk).count()
             p.drawString(120, spacing-30, f"{setor.nome} tem {estado_por_setor} registros")
+        spacing += 40 
     p.showPage()
     p.save()
 
