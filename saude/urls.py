@@ -29,7 +29,8 @@ urlpatterns = [
    path('relatorio/noks/<str:date_inicio>/<str:date_final>/plot/percentage/', saude_views.plot_noks_diarios_percentage), #d
    path('relatorio/registros/setor/<str:date_inicio>/<str:date_final>/', saude_views.relatorio_registros_setor), #e
    path('relatorio/registros/setor/<str:date_inicio>/<str:date_final>/plot/setor/<int:pk_setor>/', saude_views.plot_registros_setor), #f
-   path('relatorio/registros/setor/nok/<str:date_inicio>/<str:date_final>/', saude_views.relatorio_registros_setor_percentage), #g
+   path('relatorio/registros/setor/nok/<str:date_inicio>/<str:date_final>/', saude_views.relatorio_registros_noks_setor_percentage), #g
+   path('relatorio/registros/setor/nok/<str:date_inicio>/<str:date_final>/plot/setor/<int:pk_setor>/', saude_views.plot_registros_noks_setor), #h
    re_path(r'^swagger(?P<format>\.json|\.yaml)$', schema_view.without_ui(cache_timeout=0), name='schema-json'),
    re_path(r'^swagger/$', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
    re_path(r'^redoc/$', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),

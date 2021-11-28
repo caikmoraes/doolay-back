@@ -245,7 +245,7 @@ def plot_registros_setor(request, date_inicio, date_final, pk_setor):
     return response
 
 
-def relatorio_registros_setor_percentage(request, date_inicio, date_final):
+def relatorio_registros_noks_setor_percentage(request, date_inicio, date_final):
     date_format = "%Y-%m-%d"
     date_format_output = "%d/%m/%Y"
     dt_inicio = datetime.datetime.strptime(date_inicio, date_format)
@@ -260,7 +260,7 @@ def relatorio_registros_setor_percentage(request, date_inicio, date_final):
 
     buffer = io.BytesIO()
     p = canvas.Canvas(buffer)
-    p.drawCentredString(PAGE_WIDTH/2, PAGE_HEIGHT-100, "Relatório de Registros Díarios por Setor")
+    p.drawCentredString(PAGE_WIDTH/2, PAGE_HEIGHT-100, "Relatório de NOKs Díarios por Setor")
     spacing = PAGE_HEIGHT-500
     setores = Setor.objects.all()
     for single_date in daterange(dt_inicio, dt_final):
@@ -283,6 +283,38 @@ def relatorio_registros_setor_percentage(request, date_inicio, date_final):
 
     buffer.seek(0)
     return FileResponse(buffer, as_attachment=True, filename=f'relatorio_nok_setor_{date_inicio}_{date_final}.pdf')
+
+
+def plot_registros_noks_setor(request, date_inicio, date_final, pk_setor):
+
+    date_format = "%Y-%m-%d"
+    date_format_output = "%d/%m/%Y"
+    dt_inicio = datetime.datetime.strptime(date_inicio, date_format)
+    dt_final = datetime.datetime.strptime(date_final, date_format)
+    query = EstadoSaude.objects.filter(date__range=(dt_inicio, dt_final))
+    n_registros = query.count()
+
+    objects = [date for date in daterange(dt_inicio, dt_final)]
+    print(objects)
+    y_pos = np.arange(len(objects))
+    qty = []
+    for single_date in objects:
+        countage = query.filter(date=single_date, user__setor__id=pk_setor, estado="NOK").count()
+        qty.append(countage)
+
+    xlabels = [f"{date.day}/{date.month}/{date.year}" for date in daterange(dt_inicio, dt_final)]
+    new_list = range(math.floor(min(qty)), math.ceil(max(qty))+1)
+    plt.bar(y_pos, qty, align='center', alpha=0.5)
+    plt.tight_layout()
+    plt.xticks(y_pos, xlabels, rotation=45)
+    plt.yticks(new_list)
+    plt.ylabel('Registros')
+    plt.xlabel('Datas')
+    plt.title(f'Registros Diários')
+    response = HttpResponse(content_type="image/png")
+    plt.savefig(response, format="png")
+    return response
+
 
 class ListaSintomasViewSet(viewsets.ModelViewSet):
     queryset = ListaSintomas.objects.all()
