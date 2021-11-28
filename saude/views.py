@@ -37,7 +37,7 @@ def relatorio_registros_diarios(request, date_inicio, date_final):
     buffer = io.BytesIO()
     p = canvas.Canvas(buffer)
     p.drawCentredString(PAGE_WIDTH/2, PAGE_HEIGHT-100, "Relatório de Registros Díarios")
-    spacing = PAGE_HEIGHT-200
+    spacing = PAGE_HEIGHT
     for single_date in daterange(dt_inicio, dt_final):
         countage = query.filter(date=single_date).count()
         date_out = single_date.strftime(date_format_output)
