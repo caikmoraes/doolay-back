@@ -201,7 +201,7 @@ def relatorio_registros_setor(request, date_inicio, date_final):
         new_query = query.filter(date=single_date)
         countage = query.filter(date=single_date).count()
         date_out = single_date.strftime(date_format_output)
-        p.drawCentredString(100, spacing, f"{date_out}:")
+        p.drawString(100, spacing, f"{date_out}:")
         spacing += 15
         for setor in setores:
             estado_por_setor = new_query.filter(user__setor__id=setor.pk).count()
