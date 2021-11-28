@@ -297,6 +297,7 @@ def plot_registros_noks_setor(request, date_inicio, date_final):
     dt_final = datetime.datetime.strptime(date_final, date_format)
     query = EstadoSaude.objects.filter(date__range=(dt_inicio, dt_final))
     n_registros = query.count()
+    setores = Setor.objects.all()
 
     objects = []
     qty = []
@@ -328,6 +329,7 @@ def plot_registros_noks_setor_percentage(request, date_inicio, date_final):
     dt_final = datetime.datetime.strptime(date_final, date_format)
     query = EstadoSaude.objects.filter(date__range=(dt_inicio, dt_final))
     n_registros = query.count()
+    setores = Setor.objects.all()
 
     objects = []
     qty = []
