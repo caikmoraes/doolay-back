@@ -3,6 +3,7 @@ from rest_framework.views import APIView
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from setores.models import Setor
+from usuarios.models import Usuario
 from saude.models import ListaSintomas, EstadoSaude, Sintoma, EstadoSintomaItem
 from saude.serializers import EstadoSaudeSerializer, EstadoSaudeNestedSerializer, ListaSintomasSerializer, SintomaSerializer, EstadoSintomaItemSerializer
 import datetime
@@ -14,6 +15,7 @@ import matplotlib
 from matplotlib import pyplot as plt
 import numpy as np
 import math
+import csv
 
 matplotlib.use('Agg')
 
@@ -412,6 +414,36 @@ def relatorio_nok_cinco_dias_setor(request):
 
     buffer.seek(0)
     return FileResponse(buffer, as_attachment=True, filename=f'relatorio_noks_setor.pdf')
+
+
+def check_attendence(request, date_inicio, date_final, minimo):
+
+    response = HttpResponse(content_type='text/csv')  
+    response['Content-Disposition'] = 'attachment; filename="file.csv"'  
+    writer = csv.writer(response)  
+    writer.writerow(['User', 'Quantidade'])
+
+    date_format = "%Y-%m-%d"
+    dt_inicio = datetime.datetime.strptime(date_inicio, date_format)
+    dt_final = datetime.datetime.strptime(date_final, date_format)
+
+    monday_inicio = (dt_inicio - datetime.timedelta(days=dt_inicio.weekday()))
+    monday_final = (dt_final - datetime.timedelta(days=dt_inicio.weekday()))
+
+    weeks = (monday_final - monday_inicio).days / 7
+    weeks += 1
+
+    total_minimo = weeks * minimo
+
+    users = Usuario.objects.all()
+
+    for user in users: 
+        saude_user = EstadoSaude.objects.filter(user=user, date__range=(dt_inicio, dt_final + datetime.timedelta(days=1)))
+        countage = saude_user.count()
+        if countage >= total_minimo:
+            writer.writerow([user.num_identificacao, countage])
+
+    return response 
 
 
 class ListaSintomasViewSet(viewsets.ModelViewSet):
