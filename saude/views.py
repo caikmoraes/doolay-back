@@ -276,8 +276,9 @@ def relatorio_registros_setor_percentage(request, date_inicio, date_final):
                 percentage = math.floor((nok_por_setor/estado_por_setor) * 100)
             else:
                 percentage = 0 
-            p.drawString(120, spacing-70, f"{setor.nome} tem {estado_por_setor} registros NOK, totalizando {percentage}% do total")
-            spacing += 25
+            p.drawString(120, spacing-15, f"{setor.nome} tem {estado_por_setor} registros NOK, totalizando {percentage}% do total")
+            spacing -= 15
+        spacing += 60
     p.showPage()
     p.save()
 
